@@ -27,6 +27,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Random;
 import kafka.utils.ToolsUtils;
@@ -74,7 +76,9 @@ public class ProducerPerformance {
             boolean shouldPrintMetrics = res.getBoolean("printMetrics");
             long transactionDurationMs = res.getLong("transactionDurationMs");
             boolean transactionsEnabled =  0 < transactionDurationMs;
-            String key = res.getString("key");
+
+            //key, partiton 명시할 수 있도록 추가
+            String key = Optional.ofNullable(res.getString("key")).orElse("");
             Integer partition =res.getInt("partition");
 
             // since default value gets printed with the help text, we are escaping \n there and replacing it with correct value here.
@@ -116,7 +120,13 @@ public class ProducerPerformance {
                     transactionStartTime = System.currentTimeMillis();
                 }
 
-                record = new ProducerRecord<>(topicName, partition, key.getBytes(), payload);
+                //파티션 지정할 경우
+                if(partition==null){
+                    record = new ProducerRecord<>(topicName, partition, key.getBytes(),payload);
+                }
+                else{
+                    record = new ProducerRecord<>(topicName, key.getBytes(),payload);
+                }
 
                 long sendStartMs = System.currentTimeMillis();
                 Callback cb = stats.nextCompletion(sendStartMs, payload.length, stats);

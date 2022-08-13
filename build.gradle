@@ -22,9 +22,6 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.apache.kafka/kafka
 	implementation group: 'org.apache.kafka', name: 'kafka_2.13', version: '2.8.1'
 
-	// https://mvnrepository.com/artifact/org.apache.kafka/kafka-log4j-appender
-	implementation group: 'org.apache.kafka', name: 'kafka-log4j-appender', version: '2.8.1'
-
 }
 
 tasks.named('test') {
