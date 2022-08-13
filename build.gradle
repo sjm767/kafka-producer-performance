@@ -1,0 +1,32 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.2'
+	id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+	id 'java'
+}
+
+group = 'com.jaeshim.kafka'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// https://mvnrepository.com/artifact/org.apache.kafka/kafka-clients
+	implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '2.8.1'
+
+	// https://mvnrepository.com/artifact/org.apache.kafka/kafka
+	implementation group: 'org.apache.kafka', name: 'kafka_2.13', version: '2.8.1'
+
+	// https://mvnrepository.com/artifact/org.apache.kafka/kafka-log4j-appender
+	implementation group: 'org.apache.kafka', name: 'kafka-log4j-appender', version: '2.8.1'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
